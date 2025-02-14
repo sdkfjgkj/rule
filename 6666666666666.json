@@ -1,0 +1,175 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "info",
+    "output": "",
+    "timestamp": true
+  },
+  "experimental": {
+    "clash_api": {
+      "external_controller": "0.0.0.0:9096",
+      "external_ui": "/etc/sing-box/ui",
+      "external_ui_download_url": "https://ok.bighaohao.eu.org/https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip",
+      "external_ui_download_detour": "国内",
+      "secret": "ID_cbfyqnfr",
+      "default_mode": "rule",
+      "access_control_allow_origin": [
+        "*"
+      ],
+      "access_control_allow_private_network": true
+    },
+    "cache_file": {
+      "enabled": true,
+      "path": "/etc/sing-box/cache.db",
+      "cache_id": "",
+      "store_fakeip": true,
+      "store_rdrc": true,
+      "rdrc_timeout": "7d"
+    }
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7890,
+      "tcp_fast_open": false,
+      "tcp_multi_path": false,
+      "udp_fragment": false
+    },
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "interface_name": "",
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": false,
+      "endpoint_independent_nat": false,
+      "stack": "mixed"
+    },
+    {
+      "type": "http",
+      "tag": "http-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7891,
+      "tcp_fast_open": false,
+      "tcp_multi_path": false,
+      "udp_fragment": false
+    },
+    {
+      "type": "socks",
+      "tag": "socks-in",
+      "listen": "127.0.0.1",
+      "listen_port": 7892,
+      "tcp_fast_open": false,
+      "tcp_multi_path": false,
+      "udp_fragment": false
+    }
+  ],
+  "outbounds": [
+    { "type": "selector", "tag": "泰国策略", "interrupt_exist_connections": true, "outbounds": [ "泰国自动" ] },
+    { "type": "selector", "tag": "美国策略", "interrupt_exist_connections": true, "outbounds": [ "美国自动" ] },
+    { "type": "selector", "tag": "尼区策略", "interrupt_exist_connections": true, "outbounds": [ "尼区自动" ] },
+    { "type": "selector", "tag": "日本策略", "interrupt_exist_connections": true, "outbounds": [ "日本自动" ] },
+    { "type": "selector", "tag": "OKX@CN", "interrupt_exist_connections": true, "outbounds": [ "国内" ] },
+    { "type": "selector", "tag": "OKX", "interrupt_exist_connections": true, "outbounds": [ "国内", "日本策略", "尼区策略", "美国策略", "泰国策略" ] },
+    { "type": "selector", "tag": "SpeedTest", "interrupt_exist_connections": true, "outbounds": [ "国内" ] },
+    { "type": "selector", "tag": "AI", "interrupt_exist_connections": true, "outbounds": [ "泰国策略", "美国策略", "尼区策略", "日本策略" ] },
+    { "type": "selector", "tag": "YouTube", "interrupt_exist_connections": true, "outbounds": [ "泰国策略", "美国策略", "尼区策略", "日本策略" ] },
+    { "type": "selector", "tag": "Spotify", "interrupt_exist_connections": true, "outbounds": [ "国内", "泰国策略", "美国策略", "尼区策略", "日本策略" ] },
+    { "type": "selector", "tag": "Telegram", "interrupt_exist_connections": true, "outbounds": [ "泰国策略", "美国策略", "尼区策略", "日本策略" ] },
+    { "type": "selector", "tag": "PikPak", "interrupt_exist_connections": true, "outbounds": [ "国内", "泰国策略", "美国策略", "尼区策略", "日本策略" ] },
+    { "type": "selector", "tag": "Paypal", "interrupt_exist_connections": true, "outbounds": [ "泰国自动", "尼区自动", "美国自动", "日本自动" ] },
+    { "type": "selector", "tag": "GitHub", "interrupt_exist_connections": true, "outbounds": [ "国内", "泰国自动", "尼区自动", "美国自动", "日本自动" ] },
+    { "type": "selector", "tag": "Apple", "interrupt_exist_connections": true, "outbounds": [ "国内", "泰国自动", "尼区自动", "美国自动", "日本自动" ] },
+    { "type": "selector", "tag": "Amazon", "interrupt_exist_connections": true, "outbounds": [ "美国策略", "尼区策略", "日本策略", "泰国策略" ] },
+    { "type": "selector", "tag": "Microsoft", "interrupt_exist_connections": true, "outbounds": [ "泰国自动", "尼区自动", "美国自动", "日本自动", "国内" ] },
+    { "type": "selector", "tag": "Google", "interrupt_exist_connections": true, "outbounds": [ "泰国策略", "美国策略", "尼区策略", "日本策略" ] },
+    { "type": "selector", "tag": "漏网之鱼", "interrupt_exist_connections": true, "outbounds": [ "国内", "日本策略", "尼区策略", "美国策略", "泰国策略" ] },
+    { "type": "direct", "tag": "国内" },
+    { "type": "selector", "tag": "默认代理", "interrupt_exist_connections": true, "outbounds": [ "泰国自动", "尼区自动", "美国自动", "日本自动", "国内" ] },
+    { "type": "urltest", "tag": "泰国自动", "url": "http://cp.cloudflare.com/", "interval": "3m", "tolerance": 150, "interrupt_exist_connections": true, "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["TH"] }] },
+    { "type": "urltest", "tag": "尼区自动", "url": "http://cp.cloudflare.com/", "interval": "3m", "tolerance": 150, "interrupt_exist_connections": true, "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["NG"] }] },
+    { "type": "urltest", "tag": "美国自动", "url": "http://cp.cloudflare.com/", "interval": "3m", "tolerance": 150, "interrupt_exist_connections": true, "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["US"] }] },
+    { "type": "urltest", "tag": "日本自动", "url": "http://cp.cloudflare.com/", "interval": "3m", "tolerance": 150, "interrupt_exist_connections": true, "outbounds": ["{all}"], "filter": [{ "action": "include", "keywords": ["JP"] }] },
+    { "type": "selector", "tag": "GLOBAL", "interrupt_exist_connections": true, "outbounds": ["{all}"] }],
+
+
+
+  "route": {
+    "rules": [
+      { "action": "sniff", "inbound": "tun-in" },
+      { "action": "route", "clash_mode": "direct", "outbound": "国内" },
+      { "action": "route", "clash_mode": "global", "outbound": "GLOBAL" },
+      { "action": "hijack-dns", "protocol": "dns" },
+      { "action": "route", "ip_cidr": "192.168.8.190/32", "outbound": "尼区自动" },
+      { "action": "route", "domain": "*.ottdns.com", "outbound": "国内" },
+      { "action": "route", "domain_keyword": "foxirj", "outbound": "国内" },
+      { "action": "route", "domain_regex": "^.*openwrt\\.ai$", "outbound": "国内" },
+      { "action": "route", "domain_regex": "^.*ioskuka\\.com$", "outbound": "国内" },
+      { "action": "route", "domain_regex": "^.*feiyangka\\.com$", "outbound": "日本自动" },
+      { "action": "route", "domain_regex": "^.*ultramobile\\.com$", "outbound": "美国自动" },
+      { "action": "route", "rule_set": [ "private", "privateip", "speedtest", "okx@cn" ], "outbound": "国内" },
+      { "action": "route", "rule_set": [ "okx" ], "outbound": "OKX" },
+      { "action": "route", "rule_set": [ "ai" ], "outbound": "AI" },
+      { "action": "route", "rule_set": [ "youtube" ], "outbound": "YouTube" },
+      { "action": "route", "rule_set": [ "telegram", "telegramip" ], "outbound": "Telegram" },
+      { "action": "route", "rule_set": [ "spotify" ], "outbound": "Spotify" },
+      { "action": "route", "rule_set": [ "paypal" ], "outbound": "Paypal" },
+      { "action": "route", "rule_set": [ "pikpak" ], "outbound": "PikPak" },
+      { "action": "route", "rule_set": [ "github" ], "outbound": "GitHub" },
+      { "action": "route", "rule_set": [ "amazon" ], "outbound": "Amazon" },
+      { "action": "route", "rule_set": [ "microsoft" ], "outbound": "Microsoft" },
+      { "action": "route", "rule_set": [ "google" ], "outbound": "Google" },
+      { "action": "route", "rule_set": [ "proxy" ], "outbound": "默认代理" },
+      { "action": "route", "rule_set": [ "cn" ], "outbound": "国内" } ],
+
+
+
+    "rule_set": [
+      { "tag": "privateip", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/privateip.srs", "download_detour": "国内" },
+      { "tag": "private", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/private.srs", "download_detour": "国内" },
+      { "tag": "speedtest", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-ookla-speedtest.srs", "download_detour": "国内" },
+      { "tag": "amazon", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-amazon.srs", "download_detour": "国内" },
+      { "tag": "microsoft", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-microsoft.srs", "download_detour": "国内" },
+      { "tag": "google", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-google.srs", "download_detour": "国内" },
+      { "tag": "apple", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-apple.srs", "download_detour": "国内" },
+      { "tag": "pikpak", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-pikpak.srs", "download_detour": "国内" },
+      { "tag": "paypal", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-paypal.srs", "download_detour": "国内" },
+      { "tag": "github", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-github.srs", "download_detour": "国内" },
+      { "tag": "spotify", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-spotify.srs", "download_detour": "国内" },
+      { "tag": "telegramip", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/telegramip.srs", "download_detour": "国内" },
+      { "tag": "telegram", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-telegram.srs", "download_detour": "国内" },
+      { "tag": "youtube", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-youtube.srs", "download_detour": "国内" },
+      { "tag": "ai", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-openai.srs", "download_detour": "国内" },
+      { "tag": "okx@cn", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-okx@cn.srs", "download_detour": "国内" },
+      { "tag": "okx", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/SagerNet/sing-geosite/raw/refs/heads/rule-set/geosite-okx.srs", "download_detour": "国内" },
+      { "tag": "proxy", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/proxy.srs", "download_detour": "国内" },
+      { "tag": "cn", "type": "remote", "format": "binary", "url": "https://ok.bighaohao.eu.org/https://github.com/DustinWin/ruleset_geodata/raw/refs/heads/sing-box-ruleset/cn.srs", "download_detour": "国内" } ], "auto_detect_interface": true, "final": "漏网之鱼" },
+
+
+
+  "dns": {
+    "servers": [
+      { "tag": "default-nameserver", "address": "192.168.8.18", "detour": "国内", "strategy": "ipv4_only" },
+      { "tag": "nameserverV4", "address": "https://223.6.6.6/dns-query", "address_resolver": "default-nameserver", "detour": "国内", "strategy": "prefer_ipv4" },
+      { "tag": "nameserverV6", "address": "https://2400:3200::1/dns-query", "address_resolver": "default-nameserver", "detour": "国内", "strategy": "prefer_ipv6" },
+      { "tag": "Remote-DNS", "address": "https://dns.google/dns-query", "address_resolver": "default-nameserver", "detour": "默认代理", "strategy": "prefer_ipv4" },
+      { "tag": "FakeIP- proxy", "address": "fakeip", "detour": "默认代理", "strategy": "prefer_ipv4" },
+      { "tag": "fake-ip-cn", "address": "fakeip", "detour": "国内", "strategy": "prefer_ipv4" } ],
+
+
+
+    "rules": [
+      { "action": "route", "server": "default-nameserver", "outbound": "any" },
+      { "action": "route", "server": "nameserverV4", "clash_mode": "direct" },
+      { "action": "route", "server": "FakeIP- proxy", "clash_mode": "global" },
+      { "action": "route", "server": "nameserverV4", "rule_set": [ "cn", "privateip", "private", "apple", "okx@cn" ] },
+      { "action": "route", "server": "FakeIP- proxy", "rule_set": [ "proxy" ] },
+      { "action": "route", "server": "fake-ip-cn", "outbound": "ID_ic1wy933" }, { "action": "route", "server": "FakeIP- proxy", "outbound": "ID_ic1wy933" } ],
+    "fakeip": { "enabled": true, "inet4_range": "198.18.0.0/15", "inet6_range": "fc00::/18" },
+    "disable_cache": false, "disable_expire": false, "independent_cache": false, "final": "Remote-DNS", "strategy": "prefer_ipv4" } }
